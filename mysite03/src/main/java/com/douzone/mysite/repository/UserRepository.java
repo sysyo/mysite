@@ -16,7 +16,9 @@ public class UserRepository {
 
 	public UserVo findByEmailAndPassword(
 			String email, 
-			String password) throws UserRepositoryException{
+			String password) throws UserRepositoryException {
+		
+		
 		UserVo vo = null;
 		
 		Connection conn = null;
@@ -27,8 +29,7 @@ public class UserRepository {
 			conn = getConnection();
 			
 			String sql =
-					// error 코드 띄우게 하기 위해서 'select에서 s 제거'
-				" elect no, name " + 
+				" select no, name " + 
 			    "   from user " + 
 				"  where email=?" + 
 			    "    and password=?";
@@ -49,7 +50,7 @@ public class UserRepository {
 			}
 			
 		} catch (SQLException e) {
-			 throw new UserRepositoryException(e.toString());
+			throw new UserRepositoryException(e.toString());
 		} finally {
 			try {
 				if(rs != null) {
