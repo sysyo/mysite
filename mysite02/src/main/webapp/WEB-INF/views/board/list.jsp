@@ -35,18 +35,20 @@
 					<c:forEach items='${list }' var='dto' varStatus='status'>
 						<tr>
 							<td>${count-status.index }</td>
-							<td style="text-align: left; padding-left: 0px">${dto.title }</td>
+							<td style="text-align: left; padding-left: 0px"><a href="${pageContext.request.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a></td>
 							<td>${dto.userName }</td>
 							<td>${dto.hit }</td>
 							<td>${dto.regDate }</td>
-							<td><a
-								href="${pageContext.request.contextPath }/board?a=delete&no=${dto.no }">삭제</a></td>
+							<!-- 작성자만 글 삭제 가능하도록 -->
+							<c:if test="${dto.userNo == authUser.no}">
+								<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${dto.no }">삭제</a></td>
+							</c:if>
+							<c:if test='${dto.userNo != authUser.no}'>
+								<td></td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>
-
-				<!-- 				insert into board values(null,,, 
-			ifnull((select max(group_no) from board), 0) + 1 -->
 
 				<!-- pager 추가 -->
 				<div class="pager">
@@ -63,7 +65,8 @@
 				<!-- pager 추가 -->
 
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=writeForm" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board?a=writeForm"
+						id="new-book">글쓰기</a>
 				</div>
 			</div>
 		</div>

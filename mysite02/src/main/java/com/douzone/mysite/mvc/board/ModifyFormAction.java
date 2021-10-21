@@ -7,19 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.douzone.mysite.dao.BoardDAO;
-import com.douzone.mysite.vo.BoardDTO;
-import com.douzone.mysite.vo.BoardVO;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class DeleteAction implements Action {
+public class ModifyFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+
 		// ------------------------ 접근 제어 -------------------------
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 
@@ -28,12 +25,11 @@ public class DeleteAction implements Action {
 			return;
 		}
 		// -----------------------------------------------------------
-		
-		Long no = Long.parseLong(request.getParameter("no"));
 
-		new BoardDAO().delete(no);
 		
-		MvcUtil.redirect("/mysite02/board", request, response);
+		
+		MvcUtil.forward("board/modify", request, response);
+
 	}
 
 }

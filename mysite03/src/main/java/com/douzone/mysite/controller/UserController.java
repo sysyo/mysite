@@ -72,7 +72,7 @@ public class UserController {
 		if(authUser == null) {
 			return "redirect:/";
 		}
-		//-----------------------------------------------------------
+		//////////////////////////////////////////////////////////
 		
 		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
@@ -87,7 +87,7 @@ public class UserController {
 		if(authUser == null) {
 			return "redirect:/";
 		}
-		//-----------------------------------------------------------
+		//////////////////////////////////////////////////////////
 		
 		userVo.setNo(authUser.getNo());
 		userService.updateUser(userVo);

@@ -53,9 +53,6 @@
 					</tr>
 				</table>
 				
-<!-- 				insert into board values(null,,, 
-			ifnull((select max(group_no) from board), 0) + 1 -->
-				
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
@@ -75,9 +72,7 @@
 				</div>				
 			</div>
 		</div>
-		<c:import url="/WEB-INF/views/includes/navigation.jsp">
-			<c:param name="menu" value="board"/>
-		</c:import>
+		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	</div>
 </body>
