@@ -1,6 +1,7 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,8 +22,6 @@ public class GuestbookRepository {
 	private DataSource dataSource;
 	
 	public List<GuestbookVo> findAll() throws GuestbookRepositoryException {
-		
-		
 		List<GuestbookVo> list = new ArrayList<>();
 		
 		Connection conn = null;
@@ -153,8 +152,4 @@ public class GuestbookRepository {
 		
 		return result;
 	}
-	
-//	private Connection getConnection() throws SQLException {
-//		-> 	@Autowired
-//	private DataSource dataSource; 사용해서 삭제
 }

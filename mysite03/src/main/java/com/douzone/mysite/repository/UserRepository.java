@@ -1,11 +1,13 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.exception.UserRepositoryException;
@@ -13,7 +15,9 @@ import com.douzone.mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
-
+	@Autowired
+	private DataSource dataSource;
+	
 	public UserVo findByEmailAndPassword(
 			String email, 
 			String password) throws UserRepositoryException {
@@ -26,7 +30,7 @@ public class UserRepository {
 		ResultSet rs = null;
 				
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			String sql =
 				" select no, name " + 
@@ -76,7 +80,7 @@ public class UserRepository {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			String sql =
 					" insert " + 
@@ -108,19 +112,6 @@ public class UserRepository {
 		
 		return result;
 	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mysql://127.0.0.1:3306/webdb?characterEncoding=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} 
-		
-		return conn;
-	}
 
 	public UserVo findByNo(Long no) throws UserRepositoryException {
 		UserVo vo = null;
@@ -130,7 +121,7 @@ public class UserRepository {
 		ResultSet rs = null;
 				
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			String sql =
 				" select no, name, email, gender " + 
@@ -177,7 +168,7 @@ public class UserRepository {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			if("".equals(vo.getPassword())) {
 				String sql =
