@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.douzone.mysite.dao.BoardDAO;
+import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
@@ -26,7 +28,13 @@ public class ModifyFormAction implements Action {
 		}
 		// -----------------------------------------------------------
 
+		// 기존 글 가져오기
+		Long no = Long.parseLong(request.getParameter("no"));
+//		new BoardDAO().getBoard(no);
+		new BoardDAO().findByNo(no);
 		
+		BoardDTO dto = new BoardDAO().getBoard(no);
+		request.setAttribute("dto", dto);
 		
 		MvcUtil.forward("board/modify", request, response);
 

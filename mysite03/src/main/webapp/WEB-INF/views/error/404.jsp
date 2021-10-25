@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>404 error</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h1>Not Found(404) - Oooooops!</h1>
+	<h1>Not Found(404) - Ooooops</h1>
 	<p>
-		죄송합니다~ 요청하신 페이지를 찾을 수 없습니다^^;
+		죄송합니다. 요청하신 페이지를 찾을 수 없습니다.
 	</p>
 </body>
 </html>

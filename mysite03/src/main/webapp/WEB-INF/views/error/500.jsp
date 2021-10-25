@@ -6,13 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>500 error</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h1>예기치 않은 오류(Internal Server Error 500) - Oooooops!</h1>
+	<h1>예기치 않은 오류(Internal Server Error 500) - Ooooops</h1>
 	<p>
-		죄송합니다~ 오류가 발생하였습니다.<br/>
-		잠시 후 다시 시도해 주시기 바랍니다 ^..^;
+		죄송합니다. 오류가 발생했습니다.<br/>
+		잠시후, 다시 시도해 주세요.
 	</p>
 </body>
 </html>

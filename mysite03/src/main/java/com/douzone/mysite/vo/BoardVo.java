@@ -5,10 +5,10 @@ public class BoardVo {
 	private String title;
 	private String contents;
 	private String regDate;
-	private Integer hit;
-	private Integer groupNo;
-	private Integer orderNo;
-	private Integer depth;
+	private int hit;
+	private int groupNo;
+	private int orderNo;
+	private int depth;
 	private Long userNo;
 	private String userName;
 	public Long getNo() {
@@ -35,28 +35,28 @@ public class BoardVo {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Integer getHit() {
+	public int getHit() {
 		return hit;
 	}
-	public void setHit(Integer hit) {
+	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	public Integer getGroupNo() {
+	public int getGroupNo() {
 		return groupNo;
 	}
-	public void setGroupNo(Integer groupNo) {
+	public void setGroupNo(int groupNo) {
 		this.groupNo = groupNo;
 	}
-	public Integer getOrderNo() {
+	public int getOrderNo() {
 		return orderNo;
 	}
-	public void setOrderNo(Integer orderNo) {
+	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	public Integer getDepth() {
+	public int getDepth() {
 		return depth;
 	}
-	public void setDepth(Integer depth) {
+	public void setDepth(int depth) {
 		this.depth = depth;
 	}
 	public Long getUserNo() {
@@ -77,4 +77,6 @@ public class BoardVo {
 				+ hit + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userNo=" + userNo
 				+ ", userName=" + userName + "]";
 	}
+	
+
 }
