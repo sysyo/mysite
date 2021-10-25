@@ -34,6 +34,7 @@ public class WriteAction implements Action {
 		vo.setContents(request.getParameter("content"));
 		vo.setUserNo(authUser.getNo());
 		
+		
 		new BoardDAO().write(vo);
 		
 		MvcUtil.redirect("/mysite02/board", request, response);

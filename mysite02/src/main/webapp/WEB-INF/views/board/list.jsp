@@ -35,13 +35,15 @@
 					<c:forEach items='${list }' var='dto' varStatus='status'>
 						<tr>
 							<td>${count-status.index }</td>
-							<td style="text-align: left; padding-left: 0px"><a href="${pageContext.request.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a></td>
+							<td style="text-align: left; padding-left: 0px"><a
+								href="${pageContext.request.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a></td>
 							<td>${dto.userName }</td>
 							<td>${dto.hit }</td>
 							<td>${dto.regDate }</td>
 							<!-- 작성자만 글 삭제 가능하도록 -->
 							<c:if test="${dto.userNo == authUser.no}">
-								<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${dto.no }">삭제</a></td>
+								<td><a
+									href="${pageContext.request.contextPath }/board?a=delete&no=${dto.no }">삭제</a></td>
 							</c:if>
 							<c:if test='${dto.userNo != authUser.no}'>
 								<td></td>

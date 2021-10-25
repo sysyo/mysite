@@ -27,7 +27,7 @@ public class BoardDAO {
 			String sql = "SELECT b.no, b.title, b.contents, b.hit, "
 					+ "date_format(b.reg_date,'%Y-%m-%d %h:%i:%s') AS reg_date, "
 					+ "b.group_no, b.order_no, b.depth, b.user_no, u.name, u.password "
-					+ "FROM board b, user u WHERE b.user_no = u.no";
+					+ "FROM board b, user u WHERE b.user_no = u.no " + "ORDER BY b.group_no DESC, b.order_no DESC;";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -63,7 +63,7 @@ public class BoardDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			System.out.println("BoardDAO - findAll() error:" + e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -86,7 +86,6 @@ public class BoardDAO {
 	// ---------------- 게시판 글쓰기 ----------------
 	public boolean write(BoardVO vo) {
 		boolean result = false;
-
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -104,7 +103,7 @@ public class BoardDAO {
 			result = count == 1;
 
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			System.out.println("BoardDAO - BoardVO() error:" + e);
 		} finally {
 			try {
 				if (pstmt != null) {
@@ -136,7 +135,7 @@ public class BoardDAO {
 			result = count == 1;
 
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			System.out.println("BoardDAO - delte() error:" + e);
 		} finally {
 			try {
 				if (pstmt != null) {
@@ -152,14 +151,14 @@ public class BoardDAO {
 		return result;
 	}
 
-	// ---------------- 해당 게시글 보기 ----------------
+	// ---------------- 해당 게시글 보기 (modifyForm 에서도 활용) ----------------
 	public BoardDTO getBoard(Long no) {
 		BoardDTO dto = new BoardDTO();
 
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT no, title, contents FROM board WHERE no= ?";
+			String sql = "SELECT no, title, contents FROM board WHERE no=?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -174,7 +173,7 @@ public class BoardDAO {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("BoardDAO - getBoard() error:" + e);
 		} finally {
 			try {
 				if (pstmt != null) {
@@ -192,6 +191,216 @@ public class BoardDAO {
 
 	}
 
+	// ---------------- 게시판 글 수정 ----------------
+	public boolean modify(BoardDTO dto) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = getConnection();
+
+			String sql = "UPDATE board SET title=?, contents=? WHERE no=?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContents());
+			pstmt.setLong(3, dto.getNo());
+
+			int count = pstmt.executeUpdate();
+			result = count == 1;
+
+		} catch (SQLException e) {
+			System.out.println("BoardDAO - modify() error:" + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+
+	// ---------------- 댓글 작성 ----------------
+	public boolean replyWrite(BoardDTO dto) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			// 기존 글 group_no, order_no, depth 값 찾기
+			String selectSql = "SELECT group_no, order_no, depth " + "FROM board WHERE no=?";
+			pstmt = conn.prepareStatement(selectSql);
+
+			pstmt.setLong(1, dto.getNo());
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				// 기존 글의 댓글(자식) sql 처리 - dept 1로 셋팅
+				String sql = "INSERT INTO board " + "VALUES(null, ?, ?, 0, now(), ?, 1, ?, ?)";
+				pstmt = conn.prepareStatement(sql);
+
+				pstmt.setString(1, dto.getTitle());
+				pstmt.setString(2, dto.getContents());
+				pstmt.setLong(3, rs.getLong(1)); // gruop_no
+				pstmt.setLong(4, rs.getLong(3) + 1); // depth
+				pstmt.setLong(5, dto.getUserNo());
+
+				int count = pstmt.executeUpdate();
+				result = count == 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("BoardDAO - replyWrite() error:" + e);
+		}
+		return result;
+
+	}
+
+	// ---------------- 댓글 작성 시 기존(부모) 글 order_no 올리기----------------
+	public void updateBoard(BoardDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			// 기존 글 group_no 값 찾기
+			String selectSql = "SELECT group_no " + "FROM board WHERE no=?";
+			pstmt = conn.prepareStatement(selectSql);
+
+			pstmt.setLong(1, dto.getNo());
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				String updateSql = "UPDATE board " + "SET order_no = order_no +1 " + "WHERE group_no=? "
+						+ "AND order_no>=1";
+				pstmt = conn.prepareStatement(updateSql);
+				pstmt.setLong(1, rs.getLong(1));
+
+				pstmt.executeUpdate();
+
+			}
+		} catch (SQLException e) {
+			System.out.println("BoardDAO - updateBoard() error:" + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	// ---------------- 조회수 ----------------
+	public boolean upHit(Long no) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = getConnection();
+
+			String sql = "UPDATE board SET hit=hit+1 WHERE no=?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+
+			int count = pstmt.executeUpdate();
+			result = count == 1;
+
+		} catch (SQLException e) {
+			System.out.println("upHit() error:" + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+
+	// ---------------- 게시판 글에 대한 user 정보 ----------------
+	public BoardDTO findByNo(Long no) {
+		BoardDTO dto = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "SELECT b.no, b.title, b.contents, b.hit, "
+					+ "date_format(b.reg_date,'%Y-%m-%d %h:%i:%s') AS reg_date, "
+					+ "b.group_no, b.order_no, b.depth, b.user_no, u.name, u.password " + "FROM board b, user u "
+					+ "WHERE b.user_no = u.no " + "AND b.no=?";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new BoardDTO();
+
+				dto.setNo(rs.getLong(1));
+				dto.setTitle(rs.getString(2));
+				dto.setContents(rs.getString(3));
+				dto.setHit(rs.getLong(4));
+				dto.setRegDate(rs.getDate(5));
+				dto.setGroupNo(rs.getLong(6));
+				dto.setOrderNo(rs.getLong(7));
+				dto.setDepth(rs.getLong(8));
+				dto.setUserNo(rs.getLong(9));
+				dto.setUserName(rs.getString(10));
+				dto.setPassword(rs.getString(11));
+			}
+		} catch (SQLException e) {
+			System.out.println("BoardDAO - findByNo() error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return dto;
+	}
+
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
@@ -204,5 +413,10 @@ public class BoardDAO {
 
 		return conn;
 	}
+
+
+
+
+
 
 }

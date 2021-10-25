@@ -13,12 +13,12 @@ import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class ViewAction implements Action {
+public class ModifyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+
 		// ------------------------ 접근 제어 -------------------------
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 
@@ -28,14 +28,16 @@ public class ViewAction implements Action {
 		}
 		// -----------------------------------------------------------
 
-		Long no = Long.parseLong(request.getParameter("no"));
+		// 글 수정 작업 실행
+		BoardDTO dto = new BoardDTO();
 		
-		new BoardDAO().upHit(no);
+		dto.setTitle(request.getParameter("title"));
+		dto.setContents(request.getParameter("contents"));
+		dto.setNo(Long.parseLong(request.getParameter("no")));
+		
+		new BoardDAO().modify(dto);
 
-		BoardDTO dto = new BoardDAO().getBoard(no);
-		request.setAttribute("dto", dto);
-
-		MvcUtil.forward("board/view", request, response);
+		MvcUtil.redirect("/mysite02/board", request, response);
 
 	}
 
