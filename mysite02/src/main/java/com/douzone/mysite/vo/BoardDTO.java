@@ -13,10 +13,10 @@ public class BoardDTO {
 	private Long orderNo;
 	private Long depth;
 	private Long userNo;
+	private Boolean deleteCheck; // 삭제된 글인지 아닌지 구별하는 거 필요하다 ㅡㅡ 
 	// --------------------------------------
 	private String userName;
 	private String password;
-	private String deleteCheck; // 삭제된 글인지 아닌지 구별하는 거 필요하다 ㅡㅡ 
 	
 	public Long getNo() {
 		return no;
@@ -85,10 +85,10 @@ public class BoardDTO {
 		this.password = password;
 	}
 	
-	public String getDeleteCheck() {
+	public Boolean getDeleteCheck() {
 		return deleteCheck;
 	}
-	public void setDeleteCheck(String deleteCheck) {
+	public void setDeleteCheck(Boolean deleteCheck) {
 		this.deleteCheck = deleteCheck;
 	}
 	@Override

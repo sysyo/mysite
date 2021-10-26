@@ -26,8 +26,8 @@ public class BoardDAO {
 
 			String sql = "SELECT b.no, b.title, b.contents, b.hit, "
 					+ "date_format(b.reg_date,'%Y-%m-%d %h:%i:%s') AS reg_date, "
-					+ "b.group_no, b.order_no, b.depth, b.user_no, u.name, u.password "
-					+ "FROM board b, user u WHERE b.user_no = u.no " + "ORDER BY b.group_no DESC, b.order_no DESC;";
+					+ "b.group_no, b.order_no, b.depth, b.user_no, b.delete_check, u.name, u.password "
+					+ "FROM board b, user u WHERE b.user_no = u.no " + "ORDER BY b.group_no DESC, b.order_no ASC;";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -43,8 +43,9 @@ public class BoardDAO {
 				Long orderNo = rs.getLong(7);
 				Long depth = rs.getLong(8);
 				Long userNo = rs.getLong(9);
-				String userName = rs.getString(10);
-				String userPassword = rs.getString(11);
+				Boolean deleteCheck = rs.getBoolean(10);
+				String userName = rs.getString(11);
+				String userPassword = rs.getString(12);
 
 				BoardDTO dto = new BoardDTO();
 				dto.setNo(no);
@@ -56,6 +57,7 @@ public class BoardDAO {
 				dto.setOrderNo(orderNo);
 				dto.setDepth(depth);
 				dto.setUserNo(userNo);
+				dto.setDeleteCheck(deleteCheck);
 				dto.setUserName(userName);
 				dto.setPassword(userPassword);
 
@@ -125,8 +127,9 @@ public class BoardDAO {
 		boolean result = false;
 		try {
 			conn = getConnection();
-			String sql = "DELETE FROM board WHERE no=?";
+//			String sql = "DELETE FROM board WHERE no=?";
 			// deleteCheck를 update로 바꾸기 
+			String sql = "UPDATE board SET delete_check=1 WHERE no=?";
 			// "UPDATE 
 
 			pstmt = conn.prepareStatement(sql);
@@ -160,7 +163,7 @@ public class BoardDAO {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT no, title, contents user_no FROM board WHERE no=?";
+			String sql = "SELECT no, title, contents, user_no FROM board WHERE no=?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -250,7 +253,8 @@ public class BoardDAO {
 			while (rs.next()) {
 
 				// 기존 글의 댓글(자식) sql 처리 - dept 1로 셋팅
-				String sql = "INSERT INTO board " + "VALUES(null, ?, ?, 0, now(), ?, 1, ?, ?)";
+				String sql = "INSERT INTO board (no, title, contents, hit, reg_date, group_no, order_no, depth, user_no) " +
+							 "VALUES(null, ?, ?, 0, now(), ?, 1, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 
 				pstmt.setString(1, dto.getTitle());

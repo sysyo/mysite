@@ -33,8 +33,6 @@
 					</tr>
 				</table>
 				<div class="bottom">
-				${dto.userNo } : userNo //
-				${authUser.no } : authUser.no
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
 					<c:if test="${dto.userNo == authUser.no}">
 						<a href="${pageContext.request.contextPath }/board?a=modifyForm&no=${dto.no}">글수정</a>

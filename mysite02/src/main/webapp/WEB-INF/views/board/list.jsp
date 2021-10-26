@@ -33,34 +33,48 @@
 					</tr>
 					<c:set var='count' value='${fn:length(list) }' />
 					<c:forEach items='${list }' var='dto' varStatus='status'>
-						<tr>
-							<td>${count-status.index }</td>
+						<c:choose>
+						<c:when test="${dto.deleteCheck == true}">
+							<tr>
+								<td colspan="5">삭제된 글입니다 ㅠ _ ㅠ</td>
+						
+							</tr>
+						</c:when>
+						<c:otherwise>
+						
+							<tr>
+								<td>${count-status.index }</td>
 
-							<c:choose>
-								<c:when test="${dto.depth == 0}">
-									<td style="text-align: left; padding-left: 0px"><a
-										href="${pageContext.servletContext.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a></td>
-								</c:when>
+								<c:choose>
+									<c:when test="${dto.depth == 0}">
+										<td style="text-align: left; padding-left: 0px"><a
+											href="${pageContext.servletContext.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a></td>
+									</c:when>
 
-								<c:otherwise>
-									<td style="text-align:left; padding-left:${20*board.depth }px">
-									<img src='${pageContext.request.contextPath }/assets/images/reply.png' />
-										<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a></td>
+									<c:otherwise>
+										<td style="text-align:left; padding-left:${20*dto.depth }px">
+											<img
+											src='${pageContext.request.contextPath }/assets/images/reply.png' />
+											<a
+											href="${pageContext.servletContext.contextPath }/board?a=view&no=${dto.no }">${dto.title }</a>
+										</td>
+									</c:otherwise>
+								</c:choose>
+
+								<td>${dto.userName }</td>
+								<td>${dto.hit }</td>
+								<td>${dto.regDate }</td>
+								<!-- 작성자만 글 삭제 가능하도록 -->
+								<c:if test="${dto.userNo == authUser.no}">
+									<td><a class="del"
+										href="${pageContext.request.contextPath }/board?a=delete&no=${dto.no }">삭제</a></td>
+								</c:if>
+								<c:if test='${dto.userNo != authUser.no}'>
+									<td></td>
+								</c:if>
+							</tr>
 								</c:otherwise>
-							</c:choose>
-
-							<td>${dto.userName }</td>
-							<td>${dto.hit }</td>
-							<td>${dto.regDate }</td>
-							<!-- 작성자만 글 삭제 가능하도록 -->
-							<c:if test="${dto.userNo == authUser.no}">
-								<td><a class="del"
-									href="${pageContext.request.contextPath }/board?a=delete&no=${dto.no }">삭제</a></td>
-							</c:if>
-							<c:if test='${dto.userNo != authUser.no}'>
-								<td></td>
-							</c:if>
-						</tr>
+						</c:choose>
 					</c:forEach>
 				</table>
 
