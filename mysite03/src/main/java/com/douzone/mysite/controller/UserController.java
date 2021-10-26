@@ -1,7 +1,6 @@
 package com.douzone.mysite.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -26,31 +25,23 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
-	public String join() {
+	public String join(@ModelAttribute UserVo vo) {
 		return "user/join";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	// binding한 결과가 result에 담긴다.
 	public String join(@ModelAttribute @Valid UserVo vo, BindingResult result, Model model) {
-		
-		// 에러가 있는지 검사
 		if(result.hasErrors()) {
-			// 에러를 List로 저장
-			List<ObjectError> list = result.getAllErrors();
-			for(ObjectError error : list) {
-				System.out.println(error);
-			}
-			
-//			Map<String, Object> map = result.getModel(); // 하지말고 파라미터로 model 받기
-//			model.addAttribute("userVo", map.get("userVo"));
-//			model.addAllAttributes(map);
+//			List<ObjectError> list = result.getAllErrors();
+//			for(ObjectError error : list) {
+//				System.out.println(error);
+//			}
 			
 			model.addAllAttributes(result.getModel());
-//			model.addAttribute("userVo", vo); // 하지말고 파라미터에 @ModelAttribute 붙여주기
-			
+			// model.addAttribute("userVo", vo);
 			return "user/join";
 		}
+		
 		
 		userService.join(vo);
 		return "redirect:/user/joinsuccess";
@@ -85,5 +76,4 @@ public class UserController {
 		
 		return "redirect:/user/update";
 	}	
-	
 }
