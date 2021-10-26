@@ -1,6 +1,7 @@
 package com.douzone.mysite.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,7 +32,7 @@ public class UserController {
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	// binding한 결과가 result에 담긴다.
-	public String join(@Valid UserVo vo, BindingResult result) {
+	public String join(@ModelAttribute @Valid UserVo vo, BindingResult result, Model model) {
 		
 		// 에러가 있는지 검사
 		if(result.hasErrors()) {
@@ -39,6 +41,14 @@ public class UserController {
 			for(ObjectError error : list) {
 				System.out.println(error);
 			}
+			
+//			Map<String, Object> map = result.getModel(); // 하지말고 파라미터로 model 받기
+//			model.addAttribute("userVo", map.get("userVo"));
+//			model.addAllAttributes(map);
+			
+			model.addAllAttributes(result.getModel());
+//			model.addAttribute("userVo", vo); // 하지말고 파라미터에 @ModelAttribute 붙여주기
+			
 			return "user/join";
 		}
 		

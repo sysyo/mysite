@@ -38,7 +38,8 @@
 		</mvc:message-converters>
 
 		<mvc:argument-resolvers>
-			<bean class="com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver" />
+			<bean
+				class="com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver" />
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 
@@ -87,6 +88,16 @@
 		<!-- defaultEncoding -->
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
+
+	<!-- MessageSource -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages/messages_ko</value>
+			</list>
+		</property>
+	</bean>
+
 
 	<context:annotation-config />
 	<context:component-scan
