@@ -1,10 +1,25 @@
 package com.douzone.mysite.vo;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 public class UserVo {
 	private Long no;
+	
+	@NotEmpty // empty 값이 아닌가?
+	@Length(min=2, max=8) // 문자열 길이 min과  max 사이인가?
 	private String name;
+	
+	@NotEmpty
+	@Email // 이메일 형식
 	private String email;
+	
+	@NotEmpty // empty 값이 아닌가?
+	@Length(min=4, max=16)
 	private String password;
+	
 	private String gender;
 	private String joinDate;
 	private String role;
