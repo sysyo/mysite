@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.douzone.mysite.dao.BoardDAO;
-import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.mysite.vo.BoardVO;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;

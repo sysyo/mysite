@@ -92,7 +92,7 @@ public class BoardDAO {
 			conn = getConnection();
 
 			String sql = "INSERT INTO board VALUES(null, ?, ?, 0, now(), "
-					+ "(SELECT IFNULL(MAX(group_no) + 1, 1) FROM board b), 0, 0, ?)";
+					+ "(SELECT IFNULL(MAX(group_no) + 1, 1) FROM board b), 0, 0, ?, 0)";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getTitle());
@@ -126,6 +126,8 @@ public class BoardDAO {
 		try {
 			conn = getConnection();
 			String sql = "DELETE FROM board WHERE no=?";
+			// deleteCheck를 update로 바꾸기 
+			// "UPDATE 
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -158,7 +160,7 @@ public class BoardDAO {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT no, title, contents FROM board WHERE no=?";
+			String sql = "SELECT no, title, contents user_no FROM board WHERE no=?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -170,6 +172,7 @@ public class BoardDAO {
 				dto.setNo(rs.getLong(1));
 				dto.setTitle(rs.getString(2));
 				dto.setContents(rs.getString(3));
+				dto.setUserNo(rs.getLong(4));
 			}
 
 		} catch (SQLException e) {

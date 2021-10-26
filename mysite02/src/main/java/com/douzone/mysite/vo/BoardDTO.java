@@ -16,6 +16,7 @@ public class BoardDTO {
 	// --------------------------------------
 	private String userName;
 	private String password;
+	private String deleteCheck; // 삭제된 글인지 아닌지 구별하는 거 필요하다 ㅡㅡ 
 	
 	public Long getNo() {
 		return no;
@@ -83,12 +84,21 @@ public class BoardDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getDeleteCheck() {
+		return deleteCheck;
+	}
+	public void setDeleteCheck(String deleteCheck) {
+		this.deleteCheck = deleteCheck;
+	}
 	@Override
 	public String toString() {
 		return "BoardDTO [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
 				+ regDate + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userNo=" + userNo
-				+ ", userName=" + userName + ", password=" + password + "]";
+				+ ", userName=" + userName + ", password=" + password + ", deleteCheck=" + deleteCheck + "]";
 	}
+	
+	
 	
 	
 	

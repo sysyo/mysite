@@ -25,7 +25,7 @@
 						<tr>
 							<td class="label">제목</td>
 							<td>
-							<input type="text" name="title" value="↪ [댓글] : "></td>
+							<input type="text" name="title" value=""></td>
 						</tr>
 						<tr>
 							<td class="label">내용</td>

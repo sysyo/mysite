@@ -33,10 +33,12 @@
 					</tr>
 				</table>
 				<div class="bottom">
+				${dto.userNo } : userNo //
+				${authUser.no } : authUser.no
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-<%-- 					<c:if test="${dto.userNo == authUser.no}"> --%>
+					<c:if test="${dto.userNo == authUser.no}">
 						<a href="${pageContext.request.contextPath }/board?a=modifyForm&no=${dto.no}">글수정</a>
-<%-- 					</c:if> --%>
+					</c:if>
 					<a href="${pageContext.request.contextPath }/board?a=replyForm&no=${dto.no}">댓글작성</a>
 				</div>
 			</div>

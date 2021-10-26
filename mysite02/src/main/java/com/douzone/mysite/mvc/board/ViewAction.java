@@ -27,8 +27,10 @@ public class ViewAction implements Action {
 			return;
 		}
 		// -----------------------------------------------------------
-
+		
 		Long no = Long.parseLong(request.getParameter("no"));
+		
+		
 		
 		new BoardDAO().upHit(no);
 
