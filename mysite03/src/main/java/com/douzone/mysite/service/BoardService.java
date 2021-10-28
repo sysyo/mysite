@@ -19,7 +19,7 @@ public class BoardService {
 	private BoardRepository boardRepository;
 	
 	public boolean addContents( BoardVo boardVo ) {
-		if( boardVo.getGroupNo() != 0 ) {
+		if( boardVo.getGroupNo() != null ) {
 			increaseGroupOrderNo( boardVo );
 		}
 		return boardRepository.insert( boardVo ) == 1;

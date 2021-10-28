@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!-- 서버에서 전달해준 BindingResult 객체를 사용하기 위해서는 태그 라이브러리를 추가 -->
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -62,42 +62,38 @@
 		<div id="content">
 			<div id="user">
 
-				<form:form
-				modelAttribute="userVo"
-				id="join-form" 
-				name="joinForm" 
-				method="post"
-				action="${pageContext.request.contextPath }/user/join" >
-					
-					<label class="block-label" for="name">이름</label> <input id="name"
-						name="name" type="text" value="${userVo.name }">
-					<p style="test-align: left; padding-left: 0; color: #f00">
-						<!-- 서버에서 전달해준 BindingResult 객체를 사용하기 위해서는 태그 라이브러리를 추가 -->
+				<form:form modelAttribute="userVo" id="join-form" name="joinForm"
+					method="post"
+					action="${pageContext.request.contextPath }/user/join">
+
+					<label class="block-label" for="name">이름</label>
+					<form:input path="name" />
+					<!-- 서버에서 전달해준 BindingResult 객체를 사용하기 위해서는 태그 라이브러리를 추가 -->
+					<p style="text-align: left; padding-left: 0; color: #f00">
 						<spring:hasBindErrors name="userVo">
 							<!-- 					name에 에러가 있는지 확인 -->
 							<c:if test="${errors.hasFieldErrors('name') }">
-								<%-- 							${errors.getFieldError( 'name' ).defaultMessage } --%>
+								<%-- ${errors.getFieldError( 'name' ).defaultMessage } --%>
 								<spring:message code="${errors.getFieldError('name').codes[0] }" />
 							</c:if>
 						</spring:hasBindErrors>
 					</p>
 
-					<%-- 					<spring:message code="user.join.email" /> --%>
-					<label class="block-label" for="email">이메일</label> 
+					<%-- <spring:message code="user.join.email" /> --%>
+					<label class="block-label" for="email">이메일</label>
 					<form:input path="email" />
-					<input id="btn-check-email" type="button" value="중복체크"> 
-					<img
-						id="img-check-email"
+					<input id="btn-check-email" type="button" value="중복체크">
+					<img id="img-check-email"
 						src='${pageContext.request.contextPath }/assets/images/check.png'
 						style='width: 16px; display: none' />
-					<p style="test-align: left; padding-left: 0; color: #f00">
-							<form:errors path="email" />
+					<p style="text-align: left; padding-left: 0; color: #f00">
+						<form:errors path="email" />
 					</p>
-					
-					<label class="block-label">패스워드</label> 
+
+					<label class="block-label">패스워드</label>
 					<form:password path="password" />
-					<p style="test-align: left; padding-left: 0; color: #f00">
-							<form:errors path="password" />
+					<p style="text-align: left; padding-left: 0; color: #f00">
+						<form:errors path="password" />
 					</p>
 
 					<fieldset>

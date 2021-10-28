@@ -2,7 +2,6 @@ package com.douzone.mysite.vo;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
 import org.hibernate.validator.constraints.Length;
 
 public class UserVo {
@@ -15,11 +14,11 @@ public class UserVo {
 	@NotEmpty
 	@Email // 이메일 형식
 	private String email;
-	
-	@NotEmpty // empty 값이 아닌가?
+
+	@NotEmpty
 	@Length(min=4, max=16)
 	private String password;
-	
+
 	private String gender;
 	private String joinDate;
 	private String role;

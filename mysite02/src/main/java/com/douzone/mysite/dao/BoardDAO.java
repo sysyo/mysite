@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.mysite.vo.BoardVO;
+import com.douzone.mysite.vo.PageVO;
 
 public class BoardDAO {
 	Connection conn = null;
@@ -128,9 +129,9 @@ public class BoardDAO {
 		try {
 			conn = getConnection();
 //			String sql = "DELETE FROM board WHERE no=?";
-			// deleteCheck를 update로 바꾸기 
+			// deleteCheck를 update로 바꾸기
 			String sql = "UPDATE board SET delete_check=1 WHERE no=?";
-			// "UPDATE 
+			// "UPDATE
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -253,8 +254,8 @@ public class BoardDAO {
 			while (rs.next()) {
 
 				// 기존 글의 댓글(자식) sql 처리 - dept 1로 셋팅
-				String sql = "INSERT INTO board (no, title, contents, hit, reg_date, group_no, order_no, depth, user_no) " +
-							 "VALUES(null, ?, ?, 0, now(), ?, 1, ?, ?)";
+				String sql = "INSERT INTO board (no, title, contents, hit, reg_date, group_no, order_no, depth, user_no) "
+						+ "VALUES(null, ?, ?, 0, now(), ?, 1, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 
 				pstmt.setString(1, dto.getTitle());
@@ -408,6 +409,31 @@ public class BoardDAO {
 		return dto;
 	}
 
+	// ---------------- 페이징 처리 ----------------
+	public int totalCount() {
+		int count = 0;
+
+		try {
+			Connection conn = getConnection();
+
+			String sql = "SELECT count(*) FROM board";
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				count = rs.getInt(1);
+
+			}
+
+		} catch (SQLException e) {
+			System.out.println("BoardDAO - totalCount() error:" + e);
+		}
+
+		return count;
+
+	}
+
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
@@ -420,10 +446,5 @@ public class BoardDAO {
 
 		return conn;
 	}
-
-
-
-
-
 
 }

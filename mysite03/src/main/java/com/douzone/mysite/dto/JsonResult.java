@@ -33,5 +33,4 @@ public class JsonResult {
 	public String getMessage() {
 		return message;
 	}
-
 }
