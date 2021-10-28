@@ -14,7 +14,7 @@ import org.springframework.core.env.Environment;
 public class DBConfig {
 	
 	@Autowired
-	private Environment env;
+	private Environment env; // 환경변수 관리
 	
 	@Bean
 	public DataSource dataSource() {
@@ -24,6 +24,7 @@ public class DBConfig {
 		dataSource.setUsername(env.getProperty("jdbc.username"));
 		dataSource.setPassword(env.getProperty("jdbc.password"));
 		dataSource.setInitialSize(env.getProperty("jdbc.initialSize", Integer.class));
+		// size를 String으로 가져와서 int로 변환
 		dataSource.setMaxActive(env.getProperty("jdbc.maxActive", Integer.class));
 		
 		return dataSource;

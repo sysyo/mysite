@@ -28,4 +28,7 @@ public class MyBatisConfig {
 	public SqlSession sqlSession(SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
+	
+	// ApplicationContext 파일 주소 찾아오는 것
+	// ㄴ configLocation - 주소 명시해오려고 
 }

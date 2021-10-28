@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.douzone.mysite.repository.SiteRepository;
 import com.douzone.mysite.service.SiteService;
 import com.douzone.mysite.vo.SiteVo;
+import com.douzone.mysite.vo.UserVo;
 
 @Controller
 public class MainController {
@@ -41,5 +42,16 @@ public class MainController {
 		map.put("message", "Hello World");
 		
 		return map;
+	}
+	@ResponseBody
+	@RequestMapping("/json")
+	public UserVo m() {
+		System.out.println("asdasdasdasdas");
+		return new UserVo();
+	}
+	@ResponseBody
+	@RequestMapping("/string")
+	public String m1() {
+		return "<h1>hello</h1>";
 	}
 }

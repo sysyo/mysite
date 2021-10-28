@@ -13,4 +13,5 @@ import com.douzone.config.app.MyBatisConfig;
 @ComponentScan({"com.douzone.mysite.service", "com.douzone.mysite.repository", "com.douzone.mysite.aspect"})
 @Import({DBConfig.class, MyBatisConfig.class})
 public class AppConfig {
+	
 }

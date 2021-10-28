@@ -15,7 +15,6 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-				${site }
 					<img id="profile" src="${pageContext.request.contextPath }${site.profile }">
 					<h2>${site.welcome }</h2>
 					<p>

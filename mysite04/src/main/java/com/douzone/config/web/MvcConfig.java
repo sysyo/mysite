@@ -21,15 +21,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-@Configuration
-@EnableWebMvc // Message Converter, handler map, View Resolver 같은 기본 기능을 자동으로 설정해 주기 때문에 생생해야
-				// 함
+@Configuration // Config class 만들 때는 달아주면 좋음
+@EnableWebMvc  // extends 할 때
+			   // Message Converter, handler map, View Resolver 같은 기본 기능을 자동으로 설정해 주기 때문에 생생해야 함
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
 	// View Resolver
+//	<!-- ViewResolver 설정 -->
+//	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+//		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+//		<property name="prefix" value="/WEB-INF/views/" />
+//		<property name="suffix" value=".jsp" />
+//	</bean>
 	@Bean
 	public ViewResolver viewResolver() { // spring-servlet.xml 에서 해 놓은 설정 가져오기
+		// id 보통 인터페이스 (같은 인터페이스 있을 수도 있으니 조심하기)
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		// class - InternalResourceViewResolver => ViewResolver implements 해서 성질 받기
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
@@ -45,8 +53,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	// <bean class="org.springframework.http.converter.StringHttpMessageConverter">
 	@Bean
 	public StringHttpMessageConverter stringHttpMessageConverter() {
+		// String으로 변환시켜주는/ Json 문자열, xml ... 로 변환 
 		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
-
+		// StringHttpMessageConverter : 일반 문자열로 전달 
+		
+		
 		List<MediaType> list = new ArrayList<>();
 //		list.add(new MediaType("text", "html", Charset.forName("utf-8")));
 //		messageConverter.setSupportedMediaTypes(list);
