@@ -21,6 +21,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
+		// controller에서 service를 처리할 필요가 없다.
 		UserVo authUser = userService.getUser(email, password);
 		if(authUser == null) {
 			request.setAttribute("result", "fail");
