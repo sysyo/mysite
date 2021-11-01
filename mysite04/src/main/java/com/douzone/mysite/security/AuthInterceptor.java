@@ -19,7 +19,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		//1. handler 종류 확인
+		// 우리가 관심 있는 것은 Controller에 있는 메서드이므로 HandlerMethod 타입인지 체크
 		if(handler instanceof HandlerMethod == false) {
+			// return true이면  Controller에 있는 메서드가 아니므로, 그대로 컨트롤러로 진행
 			return true;
 		}
 		
@@ -37,7 +39,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		//5. Type과 Method에 @Auth가 적용이 안되어 있는 경우
 		if(auth == null) {
 			return true;
-		}
+		} 
 		
 		//6. @Auth가 적용이 되어 있기 때문에 인증(Authenfication) 여부 확인
 		HttpSession session = request.getSession();
@@ -66,8 +68,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		// 옳은 관리자 권한
-		// @Auth의 role: "ADMIN"
-		// authUser의 role: "ADMIN"
+		// @Auth의 role: "ADMIN" - 인증 
+		// authUser의 role: "ADMIN" - 인가
 		return true;
 	}
 }
