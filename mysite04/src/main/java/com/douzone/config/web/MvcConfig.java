@@ -54,6 +54,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public StringHttpMessageConverter stringHttpMessageConverter() {
 		// String으로 변환시켜주는/ Json 문자열, xml ... 로 변환 
+
 		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
 		// StringHttpMessageConverter : 일반 문자열로 전달 
 		
@@ -69,14 +70,20 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		return messageConverter;
 	}
 
-	// <bean
-	// class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	@Bean
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+		// 객체를 json, xml을 문자열로 변환시켜주는 것
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
-			.indentOutput(true)
-			.dateFormat(new SimpleDateFormat("yyyy-mm-dd"));
+			.indentOutput(true) // 들여쓰기 이쁘게 해주는 것
+			.dateFormat(new SimpleDateFormat("yyyy-mm-dd")); // 날짜 포맷
 		
+//		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+//		<property name="supportedMediaTypes">
+//			<list>
+//				<value>application/json; charset=UTF-8</value>
+//			</list>
+//		</property>
+//	</bean>			
 		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter(builder.build());
 		messageConverter.setSupportedMediaTypes(
 			Arrays.asList(
@@ -87,6 +94,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		return messageConverter;
 	}
 
+	// 메세지 컨버터를 등록해주는 역할
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(stringHttpMessageConverter());

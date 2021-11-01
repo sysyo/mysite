@@ -38,11 +38,16 @@
 		<mvc:argument-resolvers>
 			<bean class="com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver" />
 		</mvc:argument-resolvers>
+		
 	</mvc:annotation-driven>
 
 	<!-- 서블릿 컨테이너(tomcat)의 DefaultServlet 위임(Delegate) Handler -->
 	<mvc:default-servlet-handler/>
 	
+<!-- 	Spring은 기본적으로 JSP 등 동적인 페이지와는 달리 HTML, CS, JavaScript 등 
+		정적인 리소스에 대한 접근을 막는다. 
+		정적인 리소스를 서비스해야 한다면 dispatcher-servlet.xml에 <mvc:resources>를 추가함으로써 
+		접근을 허용할 수 있다 -->
 	<!-- mvc url-resource mapping -->
 	<mvc:resources mapping="/upload/images/**" location="file:/upload-mysite/" />
 	

@@ -11,6 +11,7 @@ public class MessageConfig {
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 
+		// message_ko -> Korean 이라고 알려주는 것
 		messageSource.setBasename("com/douzone/mysite/config/web/message_ko");
 		messageSource.setDefaultEncoding("utf-8");
 
