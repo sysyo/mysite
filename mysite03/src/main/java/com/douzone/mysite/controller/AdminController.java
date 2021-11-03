@@ -26,7 +26,7 @@ public class AdminController {
 	private static final Log LOGGER = LogFactory.getLog(AdminController.class);
 
 	@Autowired
-	private ServletContext servletContext;
+	private ServletContext servletContext; // jsp에 뿌리려고 사용
 	
 	@Autowired
 	private SiteService siteService;
@@ -43,6 +43,7 @@ public class AdminController {
 	
 	@RequestMapping("/main/update")
 	public String main(SiteVo site, @RequestParam("file") MultipartFile file) {
+// @RequestParam("가져올 데이터의 이름")[데이터 타입][가져올 데이터를 담을 변수]
 		try {
 			String profile = fileUploadService.restoreImage(file);
 			site.setProfile(profile);
@@ -52,6 +53,7 @@ public class AdminController {
 		
 		siteService.update(site);
 		servletContext.setAttribute("site", site);
+// jsp에 있는 ${site.profile } 에서 site를 말한다.
 		
 		return "redirect:/admin";
 	}	
