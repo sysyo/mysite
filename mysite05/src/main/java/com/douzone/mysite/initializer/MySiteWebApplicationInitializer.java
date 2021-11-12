@@ -12,15 +12,17 @@ import com.douzone.mysite.config.WebConfig;
 public class MySiteWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
-	protected Class<?>[] getRootConfigClasses() {
+	protected Class<?>[] getRootConfigClasses() { // applicationContext - db, mybatis
 		return new Class<?>[] {AppConfig.class};
-	}
+	} // applicationcontext
 
 	@Override
-	protected Class<?>[] getServletConfigClasses() {
+	protected Class<?>[] getServletConfigClasses() { // spring-servlet - spring 설정 (message
 		return new Class<?>[] {WebConfig.class};
-	}
+	} // springServlet
 
+	// -> listener는 사라짐
+	
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] {"/"};

@@ -73,7 +73,6 @@
 						<spring:hasBindErrors name="userVo">
 							<!-- 					name에 에러가 있는지 확인 -->
 							<c:if test="${errors.hasFieldErrors('name') }">
-								<%-- ${errors.getFieldError( 'name' ).defaultMessage } --%>
 								<spring:message code="${errors.getFieldError('name').codes[0] }" />
 							</c:if>
 						</spring:hasBindErrors>

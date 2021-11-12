@@ -17,7 +17,6 @@ import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.service.FileUploadService;
 import com.douzone.mysite.service.SiteService;
 import com.douzone.mysite.vo.SiteVo;
-import com.douzone.mysite.vo.UserVo;
 
 @Auth(role="ADMIN")
 @Controller

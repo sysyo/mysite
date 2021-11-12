@@ -38,16 +38,11 @@
 		<mvc:argument-resolvers>
 			<bean class="com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver" />
 		</mvc:argument-resolvers>
-		
 	</mvc:annotation-driven>
 
 	<!-- 서블릿 컨테이너(tomcat)의 DefaultServlet 위임(Delegate) Handler -->
 	<mvc:default-servlet-handler/>
 	
-<!-- 	Spring은 기본적으로 JSP 등 동적인 페이지와는 달리 HTML, CS, JavaScript 등 
-		정적인 리소스에 대한 접근을 막는다. 
-		정적인 리소스를 서비스해야 한다면 dispatcher-servlet.xml에 <mvc:resources>를 추가함으로써 
-		접근을 허용할 수 있다 -->
 	<!-- mvc url-resource mapping -->
 	<mvc:resources mapping="/upload/images/**" location="file:/upload-mysite/" />
 	
@@ -74,7 +69,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
-		<!-- ViewResolver 설정 -->
+	<!-- ViewResolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/views/" />
@@ -83,9 +78,9 @@
 
 	<!-- Multipart Resolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 최대업로드 가능한 바이트 크기 -->
+		<!-- 최대업로드 가능한 바이트크기 -->
 		<property name="maxUploadSize" value="52428800" />
-		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관 할 수 있는 최대 바이트 크기 -->
+		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
 		<!-- property name="maxInMemorySize" value="52428800" /-->
 		<!-- defaultEncoding -->
 		<property name="defaultEncoding" value="utf-8" />

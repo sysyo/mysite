@@ -16,7 +16,7 @@ public class SiteService {
 	}
 
 	// update는 boolean으로 써야함 -> mysql에서 update 됐을 때 / 안됐을 때 체크
-	public boolean update(SiteVo siteVo) {
-		return siteRepository.update(siteVo);
+	public boolean update(SiteVo vo) {
+		return siteRepository.update(vo);
 	}
 }
