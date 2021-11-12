@@ -16,6 +16,47 @@
 	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+	var listaddEJS = new EJS({
+		url : '${pageContext.request.contextPath }/ejs/listadd.ejs'
+	});
+	
+	
+	$(function(){
+		$("#add-form").submit(function(evnet){
+			event.preventDefault();
+			
+			vo.name = $('#input-name').val();
+			vo.password = $('#input-password').val();
+			vo.message = $('#tx-content').val();
+			
+			console.log(vo);
+		});
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath }/',
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(vo),
+			success: function(response) {
+				if(response.result !== 'success') {
+					console.error(response.message);
+					return
+				} 
+
+				// var html = render(response.data);
+				var html = listItemEJS.render(response.data);
+				$('#list-guestbook').prepend(html);
+				$("#add-form")[0].reset();
+			},
+			error: function(xhr, status, error) {
+				console.error(status + ":" + error);
+			}
+		});
+	});
+	
+	
+
 	var messageBox = function(title, message, callback) {
 		$('#dialog-message').attr('title', title);
 		$('#dialog-message p').text(message);
@@ -30,7 +71,6 @@
 		});
 	}
 
-
 	$(function() {
 
 		// -------------- 삭제 -------------- 
@@ -38,11 +78,11 @@
 		var dialogDelete = $('#dialog-delete-form').dialog({
 			autoOpen : false, // 바로 못뜨게 하는 옵션
 			modal : true,
-			buttons: {
-				"삭제": function() {
+			buttons : {
+				"삭제" : function() {
 					// ajax 삭제
 				},
-				"취소": function() {
+				"취소" : function() {
 					$(this).dialog('close');
 				}
 			}
@@ -53,16 +93,15 @@
 		// 글 삭제 버튼
 		$(document).on('click', '#list-guestbook li a', function(event) {
 			event.preventDefault();
-			
+
 			var no = $(this).data('no');
 			$("#hidden-no").val(no);
-			
+
 			console.log(no);
-			
+
 			dialogDelete.dialog('open');
 		});
-		
-		
+
 		// form validation
 		$("#add-form").submit(function(event) {
 			event.preventDefault();
