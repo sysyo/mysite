@@ -29,17 +29,12 @@ public class GuestbookController {
 	}
 
 	@RequestMapping("/spa")
-	public String spa(Model model) {
-		List<GuestbookVo> list = guestbookService.getMessageList();
-		model.addAttribute("list", list);
+	public String spa() {
 		return "guestbook/index-spa";
 	}
 
 	@RequestMapping("/spaadd")
 	public JsonResult spaadd(@RequestBody GuestbookVo vo) {
-		// vo = guestbookService.addMessage(vo)를 사용해서 등록작업
-		vo.setNo(1L);
-		vo.setPassword("");
 
 		return JsonResult.success(vo);
 	}

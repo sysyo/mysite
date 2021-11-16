@@ -33,7 +33,7 @@
 		});
 		
 		$.ajax({
-			url: '${pageContext.request.contextPath }/',
+			url: '${pageContext.request.contextPath }/api/controller/list',
 			type: 'post',
 			dataType: 'json',
 			contentType: 'application/json',
@@ -44,7 +44,7 @@
 					return
 				} 
 
-				// var html = render(response.data);
+				var html = render(response.data);
 				var html = listItemEJS.render(response.data);
 				$('#list-guestbook').prepend(html);
 				$("#add-form")[0].reset();
