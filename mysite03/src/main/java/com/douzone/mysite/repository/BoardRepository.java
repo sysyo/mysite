@@ -48,10 +48,9 @@ public class BoardRepository {
 	}
 
 	public BoardVo findByNo( Long no ) {
-//		BoardVo vo = sqlSession.selectOne( "board.findByNo" , no);
-//		return vo;
+		BoardVo vo = sqlSession.selectOne( "board.s", no );
 		
-		return sqlSession.selectOne( "board.findByNo", no );
+		return vo;
 	}
 	
 	public BoardVo findByNoAndUserNo( Long no, Long userNo ) {
